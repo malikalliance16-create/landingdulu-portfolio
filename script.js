@@ -1,6 +1,8 @@
 const navbar = document.getElementById("navbar");
 const menuBtn = document.getElementById("menuBtn");
 const navLinks = document.getElementById("navLinks");
+const backToTop = document.getElementById("backToTop");
+const heroSection = document.getElementById("home");
 const navItems = Array.from(document.querySelectorAll(".nav-links a[href^='#']"));
 const scrollSections = navItems
   .map(function (link) {
@@ -20,6 +22,11 @@ function updateScrollState() {
     navbar.classList.add("scrolled");
   } else {
     navbar.classList.remove("scrolled");
+  }
+
+  if (backToTop && heroSection && isMobileViewport) {
+    const shouldShowBackToTop = heroSection.getBoundingClientRect().bottom <= 80;
+    backToTop.classList.toggle("visible", shouldShowBackToTop);
   }
 
   if (canUseScrollEffects) {
@@ -128,6 +135,15 @@ document.querySelectorAll(".nav-links a").forEach(function (link) {
     menuBtn.setAttribute("aria-expanded", "false");
   });
 });
+
+if (backToTop) {
+  backToTop.addEventListener("click", function () {
+    window.scrollTo({
+      top: 0,
+      behavior: prefersReducedMotion ? "auto" : "smooth"
+    });
+  });
+}
 
 const revealItems = document.querySelectorAll(".reveal");
 
