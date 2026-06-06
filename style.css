@@ -1238,6 +1238,18 @@ video {
 }
 
 @media (max-width: 768px) {
+  body {
+    background:
+      radial-gradient(circle at 18% 5%, rgba(139, 126, 255, 0.22), transparent 30%),
+      radial-gradient(circle at 86% 16%, rgba(47, 255, 200, 0.1), transparent 28%),
+      var(--bg);
+  }
+
+  body::before,
+  .noise {
+    display: none;
+  }
+
   .container,
   .navbar {
     width: calc(100% - 32px);
@@ -1246,6 +1258,17 @@ video {
   .navbar {
     top: 12px;
     height: 62px;
+    background: rgba(17,17,24,0.96);
+    backdrop-filter: none;
+    box-shadow: 0 12px 34px rgba(0,0,0,0.32);
+  }
+
+  .navbar.scrolled {
+    box-shadow: 0 12px 34px rgba(0,0,0,0.36);
+  }
+
+  .navbar::before {
+    display: none;
   }
 
   .nav-links,
@@ -1279,9 +1302,37 @@ video {
     padding: 32px;
   }
 
+  .hero-main,
+  .hero-photo,
+  .hero-card,
+  .glass-card,
+  .process-card,
+  .work-card,
+  .proof-card,
+  .contact-card {
+    backdrop-filter: none;
+    box-shadow: 0 14px 34px rgba(0,0,0,0.18);
+  }
+
+  .hero-main::before,
+  .hero-main::after,
+  .hero-card::before,
+  .glass-card::before,
+  .process-card::before,
+  .work-card::before,
+  .proof-card::before,
+  .contact-card::before {
+    display: none;
+  }
+
   .hero-main h1 {
     font-size: 42px;
     line-height: 1.08;
+  }
+
+  .hero-main h1 span {
+    animation: none;
+    filter: none;
   }
 
   .hero-copy,
@@ -1306,7 +1357,16 @@ video {
   }
 
   body::after {
-    opacity: 0;
+    display: none;
+  }
+
+  .marquee {
+    mask-image: none;
+  }
+
+  .marquee::before,
+  .marquee::after {
+    display: none;
   }
 
   .process-grid {
@@ -1315,6 +1375,13 @@ video {
 
   .section {
     padding: 80px 0;
+  }
+
+  .section,
+  .contact-section,
+  .footer {
+    content-visibility: auto;
+    contain-intrinsic-size: 720px;
   }
 
   .section-heading h2,
@@ -1355,7 +1422,25 @@ video {
     text-align: center;
     font-family: "Plus Jakarta Sans", Arial, sans-serif;
     font-weight: 900;
-    box-shadow: 0 16px 44px rgba(124,110,250,0.28);
+    box-shadow: 0 12px 28px rgba(124,110,250,0.24);
+    transition: none;
+  }
+
+  .reveal {
+    --reveal-y: 18px;
+    opacity: 0;
+    filter: none;
+    transform: translate3d(0, var(--reveal-y), 0);
+    transition: opacity 0.45s var(--ease), transform 0.45s var(--ease);
+    will-change: auto;
+  }
+
+  .reveal.visible {
+    transform: translate3d(0, 0, 0);
+  }
+
+  .hero-card.reveal.visible {
+    animation: none;
   }
 }
 

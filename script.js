@@ -10,6 +10,9 @@ const scrollSections = navItems
 
 let ticking = false;
 let pointerTicking = false;
+const canUseDesktopNavState = window.matchMedia("(min-width: 769px)").matches;
+const canUseScrollEffects = window.matchMedia("(min-width: 769px)").matches &&
+  !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 function updateScrollState() {
   if (window.scrollY > 80) {
@@ -18,22 +21,27 @@ function updateScrollState() {
     navbar.classList.remove("scrolled");
   }
 
-  const scrollValue = Math.min(window.scrollY, 1000);
-  const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
-  const scrollProgress = scrollableHeight > 0 ? window.scrollY / scrollableHeight : 0;
-  const activeSection = scrollSections
-    .filter(function (section) {
-      return section.offsetTop <= window.scrollY + 180;
-    })
-    .pop();
+  if (canUseScrollEffects) {
+    const scrollValue = Math.min(window.scrollY, 1000);
+    const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const scrollProgress = scrollableHeight > 0 ? window.scrollY / scrollableHeight : 0;
 
-  document.documentElement.style.setProperty("--scroll", scrollValue);
-  document.documentElement.style.setProperty("--scroll-progress", scrollProgress);
+    document.documentElement.style.setProperty("--scroll", scrollValue);
+    document.documentElement.style.setProperty("--scroll-progress", scrollProgress);
+  }
 
-  navItems.forEach(function (link) {
-    const isActive = activeSection && link.getAttribute("href") === `#${activeSection.id}`;
-    link.classList.toggle("active", Boolean(isActive));
-  });
+  if (canUseDesktopNavState) {
+    const activeSection = scrollSections
+      .filter(function (section) {
+        return section.offsetTop <= window.scrollY + 180;
+      })
+      .pop();
+
+    navItems.forEach(function (link) {
+      const isActive = activeSection && link.getAttribute("href") === `#${activeSection.id}`;
+      link.classList.toggle("active", Boolean(isActive));
+    });
+  }
 
   ticking = false;
 }
@@ -43,7 +51,7 @@ window.addEventListener("scroll", function () {
     window.requestAnimationFrame(updateScrollState);
     ticking = true;
   }
-});
+}, { passive: true });
 
 updateScrollState();
 
@@ -144,7 +152,10 @@ revealItems.forEach(function (item) {
 });
 
 const marqueeTrack = document.querySelector('.marquee-track');
-if (marqueeTrack) {
+const canAnimateMarquee = window.matchMedia("(min-width: 769px)").matches &&
+  !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+if (marqueeTrack && canAnimateMarquee) {
   const speed = 45; // pixels per second
   let lastTime = null;
   let offset = 0;
