@@ -669,6 +669,12 @@ video {
   }
 }
 
+@media (min-width: 769px) {
+  .marquee-track {
+    animation: marquee 34s linear infinite;
+  }
+}
+
 /* SECTIONS */
 
 .section {
@@ -1150,7 +1156,7 @@ video {
   }
 }
 
-@media (min-width: 1025px) and (pointer: fine) {
+@media (min-width: 769px) and (pointer: fine) {
   .glass-card,
   .process-card,
   .work-card,

@@ -10,9 +10,10 @@ const scrollSections = navItems
 
 let ticking = false;
 let pointerTicking = false;
-const canUseDesktopNavState = window.matchMedia("(min-width: 769px)").matches;
-const canUseScrollEffects = window.matchMedia("(min-width: 769px)").matches &&
-  !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const isMobileViewport = window.matchMedia("(max-width: 768px)").matches;
+const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const canUseDesktopNavState = !isMobileViewport;
+const canUseScrollEffects = !isMobileViewport && !prefersReducedMotion;
 
 function updateScrollState() {
   if (window.scrollY > 80) {
@@ -55,8 +56,9 @@ window.addEventListener("scroll", function () {
 
 updateScrollState();
 
-const canUsePointerGlow = window.matchMedia("(pointer: fine)").matches &&
-  !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const canUsePointerGlow = !isMobileViewport &&
+  window.matchMedia("(pointer: fine)").matches &&
+  !prefersReducedMotion;
 
 if (canUsePointerGlow) {
   window.addEventListener("pointermove", function (event) {
@@ -152,14 +154,14 @@ revealItems.forEach(function (item) {
 });
 
 const marqueeTrack = document.querySelector('.marquee-track');
-const canAnimateMarquee = window.matchMedia("(min-width: 769px)").matches &&
-  !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const canAnimateMarquee = !isMobileViewport && !prefersReducedMotion;
 
 if (marqueeTrack && canAnimateMarquee) {
   const speed = 45; // pixels per second
   let lastTime = null;
   let offset = 0;
 
+  marqueeTrack.style.animation = "none";
   const clone = marqueeTrack.innerHTML;
   marqueeTrack.insertAdjacentHTML('beforeend', clone);
 
