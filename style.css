@@ -263,6 +263,27 @@ video {
   display: none;
 }
 
+.menu-btn span {
+  display: block;
+  width: 18px;
+  height: 2px;
+  border-radius: 999px;
+  background: currentColor;
+  transition: transform 0.25s var(--ease), opacity 0.2s var(--ease);
+}
+
+.menu-btn.is-open span:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.menu-btn.is-open span:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-btn.is-open span:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
 /* HERO */
 
 .hero {
@@ -1288,6 +1309,13 @@ video {
 
   .menu-btn {
     display: inline-flex;
+    width: 46px;
+    height: 46px;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 4px;
   }
 
   .nav-links.active {

@@ -116,12 +116,16 @@ if (canUsePointerGlow) {
 }
 
 menuBtn.addEventListener("click", function () {
-  navLinks.classList.toggle("active");
+  const isOpen = navLinks.classList.toggle("active");
+  menuBtn.classList.toggle("is-open", isOpen);
+  menuBtn.setAttribute("aria-expanded", String(isOpen));
 });
 
 document.querySelectorAll(".nav-links a").forEach(function (link) {
   link.addEventListener("click", function () {
     navLinks.classList.remove("active");
+    menuBtn.classList.remove("is-open");
+    menuBtn.setAttribute("aria-expanded", "false");
   });
 });
 
