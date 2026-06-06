@@ -664,8 +664,12 @@ video {
 }
 
 @keyframes marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
   to {
-    transform: translateX(-50%);
+    transform: translate3d(-50%, 0, 0);
   }
 }
 
@@ -1476,6 +1480,12 @@ video {
 
   body::after {
     opacity: 0;
+  }
+
+  @media (min-width: 769px) {
+    .marquee-track {
+      animation: marquee 34s linear infinite !important;
+    }
   }
 }
 

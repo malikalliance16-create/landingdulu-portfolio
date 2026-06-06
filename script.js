@@ -153,31 +153,3 @@ revealItems.forEach(function (item) {
   observer.observe(item);
 });
 
-const marqueeTrack = document.querySelector('.marquee-track');
-const canAnimateMarquee = !isMobileViewport && !prefersReducedMotion;
-
-if (marqueeTrack && canAnimateMarquee) {
-  const speed = 45; // pixels per second
-  let lastTime = null;
-  let offset = 0;
-
-  marqueeTrack.style.animation = "none";
-  const clone = marqueeTrack.innerHTML;
-  marqueeTrack.insertAdjacentHTML('beforeend', clone);
-
-  function animateMarquee(timestamp) {
-    if (lastTime !== null) {
-      const delta = (timestamp - lastTime) / 1000;
-      offset -= speed * delta;
-      const trackWidth = marqueeTrack.scrollWidth / 2;
-      if (Math.abs(offset) >= trackWidth) {
-        offset += trackWidth;
-      }
-      marqueeTrack.style.transform = `translate3d(${offset}px, 0, 0)`;
-    }
-    lastTime = timestamp;
-    requestAnimationFrame(animateMarquee);
-  }
-
-  requestAnimationFrame(animateMarquee);
-}
